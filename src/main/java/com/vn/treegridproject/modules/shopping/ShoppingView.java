@@ -3,12 +3,10 @@ package com.vn.treegridproject.modules.shopping;
 import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.treegrid.TreeGrid;
-import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider;
-import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -79,7 +77,16 @@ public class ShoppingView extends BaseView<ShoppingPresenter> {
     private void initializeTreeGrid(){
         categoryTreeGrid = new TreeGrid<>();
         categoryTreeGrid.setItems(getPresenter().getParentCategory(), this::getChildCategory);
-        categoryTreeGrid.addHierarchyColumn(Category::getName).setHeader("Category");
+//        categoryTreeGrid.addHierarchyColumn(Category::getName).setHeader("Category");
+
+        categoryTreeGrid.addComponentHierarchyColumn(component ->{
+
+//            Span span = new Span(component.getName());
+//            span.addClickListener(spanClickEvent -> {
+//
+//            })
+            return new Span(component.getName());
+        });
         categoryTreeGrid.addItemClickListener(item ->productGrid.setItems(getPresenter().
                 getProductByCategoryId(item.getItem().
                         getId())));
